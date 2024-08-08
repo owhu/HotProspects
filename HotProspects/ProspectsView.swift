@@ -55,6 +55,9 @@ struct ProspectsView: View {
                         }
                         .tint(.green)
                     }
+                    Button("Delete", systemImage: "trash", role: .destructive) {
+                        modelContext.delete(prospect)
+                    }
                 }
             }
             .navigationTitle(title)
