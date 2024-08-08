@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ProspectsView: View {
     
@@ -26,10 +27,30 @@ struct ProspectsView: View {
         }
     }
     
+    @Query(sort: \Prospect.name) var prospects: [Prospect]
+    @Environment(\.modelContext) var modelContext
+    
+    
     var body: some View {
-        NavigationStack {
-            Text("Hello, World!")
-                .navigationTitle(title)
+        List(prospects) { prospect in
+            VStack(alignment: .leading) {
+                Text(prospect.name)
+                    .font(.headline)
+                Text(prospect.emailAddress)
+                    .foregroundStyle(.secondary)
+            }
+        }
+    }
+    
+    init(filter: FilterType) {
+        self.filter = filter
+
+        if filter != .none {
+            let showContactedOnly = filter == .contacted
+
+            _prospects = Query(filter: #Predicate {
+                $0.isContacted == showContactedOnly
+            }, sort: [SortDescriptor(\Prospect.name)])
         }
     }
 }
