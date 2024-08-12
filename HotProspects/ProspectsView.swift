@@ -39,16 +39,23 @@ struct ProspectsView: View {
     var body: some View {
         NavigationStack {
             List(prospects, selection: $selectedProspects) { prospect in
-                VStack(alignment: .leading) {
+                NavigationLink {
+                    EditView(prospects: prospect)
+                } label: {
                     HStack {
-                        Circle()
-                            .fill(prospect.isContacted ? .green : .red)
-                            .frame(width: 10)
-                        Text(prospect.name)
-                            .font(.headline)
+                        VStack(alignment: .leading) {
+                            Text(prospect.name)
+                                .font(.headline)
+                            
+                            Text(prospect.emailAddress)
+                                .foregroundStyle(.secondary)
+                        }
+                        
+                        if filter == .none && prospect.isContacted {
+                            Spacer()
+                            Image(systemName: "checkmark.circle.fill")
+                        }
                     }
-                    Text(prospect.emailAddress)
-                        .foregroundStyle(.secondary)
                 }
                 .swipeActions {
                     if prospect.isContacted {
@@ -71,6 +78,7 @@ struct ProspectsView: View {
                     }
                 }
                 .tag(prospect)
+                
             }
             .navigationTitle(title)
             .toolbar {
@@ -90,6 +98,9 @@ struct ProspectsView: View {
             }
             .sheet(isPresented: $isShowingScanner) {
                 CodeScannerView(codeTypes: [.qr], simulatedData: "Paul Hudson\npaul@hackingwithswift.com", completion: handleScan)
+            }
+            .onAppear {
+                selectedProspects = []
             }
         }
     }

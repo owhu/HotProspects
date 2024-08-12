@@ -6,13 +6,34 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct EditView: View {
+    @Bindable var prospects: Prospect
+
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Form {
+            TextField("Name", text: $prospects.name)
+            TextField("Email", text: $prospects.emailAddress)
+            Toggle("Contacted", isOn: $prospects.isContacted)
+        }
+        .navigationTitle("Edit Prospect")
+        .navigationBarTitleDisplayMode(.inline)
     }
+    
+
 }
 
 #Preview {
-    EditView()
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: Prospect.self, configurations: config)
+        let example = Prospect(name: "Example User", emailAddress: "example@user.com", isContacted: false)
+
+        return EditView(prospects: example)
+            .modelContainer(container)
+    } catch {
+        return Text("Failed to create preview: \(error.localizedDescription)")
+    }
 }

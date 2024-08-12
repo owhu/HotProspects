@@ -10,6 +10,10 @@ import UserNotifications
 import SamplePackage
 
 struct ContentView: View {
+    @State private var sortOrder = [
+        SortDescriptor(\Prospect.name),
+        SortDescriptor(\Prospect.emailAddress),
+    ]
    
     
     var body: some View {
