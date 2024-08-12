@@ -37,75 +37,75 @@ struct ProspectsView: View {
     
     
     var body: some View {
-        NavigationStack {
-            List(prospects, selection: $selectedProspects) { prospect in
-                NavigationLink {
-                    EditView(prospects: prospect)
-                } label: {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(prospect.name)
-                                .font(.headline)
-                            
-                            Text(prospect.emailAddress)
-                                .foregroundStyle(.secondary)
-                        }
+        //        NavigationStack {
+        List(prospects, selection: $selectedProspects) { prospect in
+            NavigationLink {
+                EditView(prospects: prospect)
+            } label: {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(prospect.name)
+                            .font(.headline)
                         
-                        if filter == .none && prospect.isContacted {
-                            Spacer()
-                            Image(systemName: "checkmark.circle.fill")
-                        }
+                        Text(prospect.emailAddress)
+                            .foregroundStyle(.secondary)
                     }
-                }
-                .swipeActions {
-                    if prospect.isContacted {
-                        Button("Mark Uncontacted", systemImage: "person.crop.circle.badge.xmark") {
-                            prospect.isContacted.toggle()
-                        }
-                        .tint(.blue)
-                        Button("Remind Me", systemImage: "bell") {
-                            addNotification(for: prospect)
-                        }
-                        .tint(.orange)
-                    } else {
-                        Button("Mark Contacted", systemImage: "person.crop.circle.fill.badge.checkmark") {
-                            prospect.isContacted.toggle()
-                        }
-                        .tint(.green)
-                    }
-                    Button("Delete", systemImage: "trash", role: .destructive) {
-                        modelContext.delete(prospect)
-                    }
-                }
-                .tag(prospect)
-                
-            }
-            .navigationTitle(title)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Scan", systemImage: "qrcode.viewfinder") {
-                        isShowingScanner = true
-                    }
-                }
-                ToolbarItem(placement: .topBarLeading) {
-                    EditButton()
-                }
-                if selectedProspects.isEmpty == false {
-                    ToolbarItem(placement: .bottomBar) {
-                        Button("Delete Selected", action: delete)
+                    
+                    if filter == .none && prospect.isContacted {
+                        Spacer()
+                        Image(systemName: "checkmark.circle.fill")
                     }
                 }
             }
-            .sheet(isPresented: $isShowingScanner) {
-                CodeScannerView(codeTypes: [.qr], simulatedData: "Paul Hudson\npaul@hackingwithswift.com", completion: handleScan)
+            .swipeActions {
+                if prospect.isContacted {
+                    Button("Mark Uncontacted", systemImage: "person.crop.circle.badge.xmark") {
+                        prospect.isContacted.toggle()
+                    }
+                    .tint(.blue)
+                    Button("Remind Me", systemImage: "bell") {
+                        addNotification(for: prospect)
+                    }
+                    .tint(.orange)
+                } else {
+                    Button("Mark Contacted", systemImage: "person.crop.circle.fill.badge.checkmark") {
+                        prospect.isContacted.toggle()
+                    }
+                    .tint(.green)
+                }
+                Button("Delete", systemImage: "trash", role: .destructive) {
+                    modelContext.delete(prospect)
+                }
             }
-            .onAppear {
-                selectedProspects = []
+            .tag(prospect)
+            
+        }
+        .navigationTitle(title)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Scan", systemImage: "qrcode.viewfinder") {
+                    isShowingScanner = true
+                }
+            }
+            ToolbarItem(placement: .topBarLeading) {
+                EditButton()
+            }
+            if selectedProspects.isEmpty == false {
+                ToolbarItem(placement: .bottomBar) {
+                    Button("Delete Selected", action: delete)
+                }
             }
         }
+        .sheet(isPresented: $isShowingScanner) {
+            CodeScannerView(codeTypes: [.qr], simulatedData: "Paul Hudson\npaul@hackingwithswift.com", completion: handleScan)
+        }
+        .onAppear {
+            selectedProspects = []
+        }
+//    }
     }
     
-    init(filter: FilterType) {
+    init(filter: FilterType, sort: SortDescriptor<Prospect>) {
         self.filter = filter
 
         if filter != .none {
@@ -113,7 +113,9 @@ struct ProspectsView: View {
 
             _prospects = Query(filter: #Predicate {
                 $0.isContacted == showContactedOnly
-            }, sort: [SortDescriptor(\Prospect.name)])
+            }, sort: [sort])
+        } else {
+            _prospects = Query(sort: [sort])
         }
     }
     
@@ -173,5 +175,6 @@ struct ProspectsView: View {
 }
 
 #Preview {
-    ProspectsView(filter: .none)
+    ProspectsView(filter: .none, sort: SortDescriptor(\Prospect.name))
+        .modelContainer(for: Prospect.self)
 }

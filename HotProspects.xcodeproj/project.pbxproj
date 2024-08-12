@@ -17,6 +17,7 @@
 		EEE61B542C652C12006B4AA6 /* Prospect.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61B532C652C12006B4AA6 /* Prospect.swift */; };
 		EEE61B572C655DF3006B4AA6 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = EEE61B562C655DF3006B4AA6 /* CodeScanner */; };
 		EEE61B732C6A7C3E006B4AA6 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61B722C6A7C3E006B4AA6 /* EditView.swift */; };
+		EEE61B752C6A9CDD006B4AA6 /* SortableProspectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61B742C6A9CDD006B4AA6 /* SortableProspectsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		EEE61B512C6526A7006B4AA6 /* MeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeView.swift; sourceTree = "<group>"; };
 		EEE61B532C652C12006B4AA6 /* Prospect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prospect.swift; sourceTree = "<group>"; };
 		EEE61B722C6A7C3E006B4AA6 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		EEE61B742C6A9CDD006B4AA6 /* SortableProspectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortableProspectsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				EEE61B4F2C65269D006B4AA6 /* ProspectsView.swift */,
 				EEE61B722C6A7C3E006B4AA6 /* EditView.swift */,
 				EEE61B532C652C12006B4AA6 /* Prospect.swift */,
+				EEE61B742C6A9CDD006B4AA6 /* SortableProspectsView.swift */,
 				EEE61B512C6526A7006B4AA6 /* MeView.swift */,
 				EEE61B1D2C62943C006B4AA6 /* Assets.xcassets */,
 				EEE61B1F2C62943C006B4AA6 /* Preview Content */,
@@ -162,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEE61B522C6526A7006B4AA6 /* MeView.swift in Sources */,
+				EEE61B752C6A9CDD006B4AA6 /* SortableProspectsView.swift in Sources */,
 				EEE61B542C652C12006B4AA6 /* Prospect.swift in Sources */,
 				EEE61B732C6A7C3E006B4AA6 /* EditView.swift in Sources */,
 				EEE61B502C65269D006B4AA6 /* ProspectsView.swift in Sources */,
